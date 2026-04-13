@@ -5,6 +5,8 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no"/>
 <title>SLIME SMASH</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -23,7 +25,7 @@ html,body{
   touch-action:manipulation;
   -webkit-tap-highlight-color:transparent;
   user-select:none;
-  font-family:'Nunito',sans-serif;
+  font-family:'Nunito',system-ui,sans-serif;
   color:#fff;
 }
 body{
@@ -51,7 +53,7 @@ position:relative;overflow:hidden;z-index:10;
 }
 
 #logo{
-font-family:‘Fredoka One’,cursive;
+font-family:‘Fredoka One’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
 font-size:clamp(22px,6vw,32px);
 line-height:1;letter-spacing:2px;
 text-align:center;
@@ -83,7 +85,7 @@ flex-shrink:0;
 }
 .tab{
 flex:1;padding:11px 4px;
-font-family:‘Fredoka One’,cursive;
+font-family:‘Fredoka One’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
 font-size:clamp(14px,4vw,18px);
 letter-spacing:1px;
 color:rgba(255,255,255,.35);
@@ -112,7 +114,7 @@ margin-bottom:-8px;
 .menu-stack svg:last-child{margin-bottom:0;}
 
 .play-btn{
-font-family:‘Fredoka One’,cursive;
+font-family:‘Fredoka One’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
 font-size:26px;letter-spacing:5px;
 padding:14px 52px;border-radius:50px;
 border:none;cursor:pointer;
@@ -127,7 +129,7 @@ transition:transform .07s,box-shadow .07s;
 #tab-scores{gap:12px;justify-content:flex-start;}
 
 .scores-title{
-font-family:‘Fredoka One’,cursive;
+font-family:‘Fredoka One’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
 font-size:20px;letter-spacing:2px;
 color:var(–green);
 text-shadow:1px 1px 0 var(–green-dk);
@@ -145,7 +147,7 @@ border-radius:10px;
 padding:9px 14px;
 }
 .score-rank{
-font-family:‘Fredoka One’,cursive;
+font-family:‘Fredoka One’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
 font-size:18px;min-width:28px;text-align:center;
 }
 .rank-1{color:var(–green);}
@@ -154,7 +156,7 @@ font-size:18px;min-width:28px;text-align:center;
 .rank-other{color:rgba(255,255,255,.3);}
 
 .score-time{
-font-family:‘Fredoka One’,cursive;
+font-family:‘Fredoka One’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
 font-size:22px;letter-spacing:1px;color:#fff;
 flex:1;
 }
@@ -169,7 +171,7 @@ text-align:center;padding:24px 0;
 }
 
 .clear-btn{
-font-family:‘Fredoka One’,cursive;
+font-family:‘Fredoka One’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
 font-size:13px;letter-spacing:2px;
 padding:7px 20px;border-radius:20px;
 border:1.5px solid rgba(255,61,190,.4);
@@ -184,7 +186,7 @@ transition:background .12s;
 #tab-rules{gap:12px;justify-content:flex-start;}
 
 .rules-title{
-font-family:‘Fredoka One’,cursive;
+font-family:‘Fredoka One’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
 font-size:20px;letter-spacing:2px;
 color:var(–pink);
 align-self:flex-start;
@@ -201,7 +203,7 @@ display:flex;align-items:flex-start;gap:12px;
 .rule-card.r{background:rgba(63,255,106,.07); border:1.5px solid rgba(63,255,106,.3);}
 
 .rule-num{
-font-family:‘Fredoka One’,cursive;
+font-family:‘Fredoka One’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
 font-size:22px;line-height:1;flex-shrink:0;margin-top:1px;
 }
 .rule-card.g .rule-num{color:var(–green);}
@@ -227,7 +229,7 @@ border-bottom:1px solid rgba(255,255,255,.06);
 }
 #timer-lbl{font-size:8px;letter-spacing:4px;font-weight:900;color:var(–green-lt);}
 #timer-val{
-font-family:‘Fredoka One’,cursive;
+font-family:‘Fredoka One’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
 font-size:clamp(44px,12vw,64px);
 line-height:1;letter-spacing:3px;
 color:#fff;text-shadow:2px 2px 0 #000,0 0 20px rgba(255,255,255,.2);
@@ -320,7 +322,7 @@ background:rgba(12,4,26,.96);
 backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
 }
 .go-title{
-font-family:‘Fredoka One’,cursive;
+font-family:‘Fredoka One’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
 font-size:clamp(60px,16vw,88px);
 color:var(–pink);
 text-shadow:3px 3px 0 var(–pink-dk);
@@ -336,11 +338,11 @@ border-radius:14px;padding:13px 30px;width:100%;max-width:240px;
 }
 .go-row{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:3px 0;}
 .go-lbl{font-size:9px;letter-spacing:3px;font-weight:900;color:rgba(255,255,255,.3);text-transform:uppercase;}
-.go-val{font-family:‘Fredoka One’,cursive;font-size:30px;letter-spacing:1px;}
+.go-val{font-family:‘Fredoka One’,‘Arial Rounded MT Bold’,system-ui,sans-serif;font-size:30px;letter-spacing:1px;}
 
 .go-btns{display:flex;gap:10px;}
 .abtn{
-font-family:‘Fredoka One’,cursive;font-size:20px;letter-spacing:3px;
+font-family:‘Fredoka One’,‘Arial Rounded MT Bold’,system-ui,sans-serif;font-size:20px;letter-spacing:3px;
 padding:12px 28px;border-radius:50px;border:none;cursor:pointer;
 transition:transform .07s,box-shadow .07s;
 }
@@ -348,7 +350,7 @@ transition:transform .07s,box-shadow .07s;
 .btn-retry{background:linear-gradient(160deg,var(–green),var(–green-dk));color:#002a10;box-shadow:0 4px 0 #004a18;}
 .btn-menu {background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);color:rgba(255,255,255,.7);box-shadow:0 4px 0 rgba(0,0,0,.3);}
 
-.go-best{font-family:‘Fredoka One’,cursive;font-size:13px;color:var(–green);letter-spacing:1px;}
+.go-best{font-family:‘Fredoka One’,‘Arial Rounded MT Bold’,system-ui,sans-serif;font-size:13px;color:var(–green);letter-spacing:1px;}
 
 /* ════════════════════════════════
 FLASH + SPLAT
@@ -395,7 +397,7 @@ pointer-events:all;
 #countdown.active{display:flex;}
 
 #cd-num{
-font-family:‘Fredoka One’,cursive;
+font-family:‘Fredoka One’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
 font-size:clamp(100px,30vw,160px);
 line-height:1;
 letter-spacing:2px;
