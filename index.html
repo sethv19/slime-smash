@@ -1295,16 +1295,17 @@ function gameComplete(){
 
 function doShare(text){
   if(navigator.share){
-    navigator.share({title:'Slime Smash', text:text}).catch(()=>{
-      copyToClipboard(text + '\n' + DAILY_URL);
-    });
+    navigator.share({
+      title: 'Slime Smash',
+      text:  text,
+      url:   DAILY_URL
+    }).catch(()=>copyToClipboard(text));
   } else {
-    copyToClipboard(text + '\n' + DAILY_URL);
+    copyToClipboard(text);
   }
 }
 
 function copyToClipboard(text){
-  // Create a temporary textarea, copy from it — works on all browsers
   const ta = document.createElement('textarea');
   ta.value = text;
   ta.style.position = 'fixed';
