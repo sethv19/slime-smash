@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
 <meta http-equiv="Pragma" content="no-cache"/>
 <meta http-equiv="Expires" content="0"/>
@@ -366,10 +366,9 @@ FLASH + SPLAT
 /* Slime splat on game over */
 #splat{
 position:fixed;inset:0;pointer-events:none;z-index:81;
-display:flex;align-items:center;justify-content:center;
-opacity:0;
+display:none;align-items:center;justify-content:center;
 }
-#splat.active{animation:splatAnim .55s ease forwards;}
+#splat.active{display:flex;animation:splatAnim .55s ease forwards;}
 @keyframes splatAnim{
 0%  {opacity:1;transform:scale(0.2);}
 40% {opacity:1;transform:scale(1.35);}
@@ -378,6 +377,10 @@ opacity:0;
 100%{opacity:0;transform:scale(1.15);}
 }
 #splat svg{width:min(80vw,80vh);height:auto;}
+@keyframes hintPulse{
+0%,100%{transform:translateY(0);opacity:1;}
+50%{transform:translateY(-4px);opacity:0.5;}
+}
 @keyframes shake{
 0%,100%{transform:translateX(0);}
 15%{transform:translateX(-8px) rotate(-.8deg);}
@@ -385,38 +388,6 @@ opacity:0;
 55%{transform:translateX(-5px);}75%{transform:translateX(4px);}
 }
 .shake{animation:shake .3s ease;}
-
-/* ── TAP HINTS ── */
-.tap-hint{
-display:flex;flex-direction:column;align-items:center;gap:2px;
-flex-shrink:0;padding:6px 0 2px;
-visibility:hidden;
-opacity:0;
-}
-.tap-hint.visible{
-visibility:visible;
-opacity:1;
-animation:hintPulse 1.2s ease-in-out infinite;
-}
-.tap-hint-right{ }
-.hint-arrow{
-font-size:22px;
-color:#3fff6a;
-line-height:1;
-}
-.tap-hint-right .hint-arrow{ color:#ff3dbe; }
-.hint-text{
-font-family:‘Baloo 2’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
-font-size:10px;
-font-weight:800;
-letter-spacing:2px;
-color:#3fff6a;
-}
-.tap-hint-right .hint-text{ color:#ff3dbe; }
-@keyframes hintPulse{
-0%,100%{transform:translateY(0);opacity:1;}
-50%{transform:translateY(-4px);opacity:0.5;}
-}
 
 /* ════════════════════════════════
 COUNTDOWN OVERLAY
@@ -426,8 +397,6 @@ position:fixed;inset:0;z-index:70;
 display:none;
 align-items:center;justify-content:center;
 background:rgba(12,4,26,.82);
-backdrop-filter:blur(4px);
--webkit-backdrop-filter:blur(4px);
 pointer-events:all;
 }
 #countdown.active{display:flex;}
@@ -437,6 +406,9 @@ font-family:‘Baloo 2’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
 font-size:clamp(100px,30vw,160px);
 line-height:1;
 letter-spacing:2px;
+color:#fff;
+}
+#countdown.active #cd-num{
 animation:cdPop .75s ease forwards;
 }
 #cd-num.go{
@@ -597,20 +569,14 @@ text-shadow:0 0 40px rgba(63,255,106,.6), 3px 3px 0 #009e35;
   <div id="stack-wrap">
     <div id="stack-inner"></div>
   </div>
-  <div id="hint-left" class="tap-hint">
-    <div class="hint-arrow">↑</div>
-    <div class="hint-text">TAP HERE</div>
-  </div>
+
 </div>
 
 <div id="div"></div>
 
 <!-- Right: pink lock-in -->
 <div id="right">
-  <div id="hint-right" class="tap-hint tap-hint-right">
-    <div class="hint-text">TAP HERE</div>
-    <div class="hint-arrow">↓</div>
-  </div>
+
   <div id="cbtn">
     <!-- Pink slime inside the button -->
     <svg class="cbtn-slime" viewBox="0 0 70 60" xmlns="http://www.w3.org/2000/svg">
@@ -657,6 +623,10 @@ text-shadow:0 0 40px rgba(63,255,106,.6), 3px 3px 0 #009e35;
 </div>
 
 <script>
+// Prevent pinch zoom
+document.addEventListener('touchmove', function(e){
+  if(e.touches.length > 1) e.preventDefault();
+}, {passive:false});
 
 // ══════════════════════════
 // CONFIG
@@ -802,6 +772,13 @@ function generateRoundCounts(){
 // ══════════════════════════
 // BUILD STACK
 // ══════════════════════════
+function removeHints(){
+  ['hint-left','hint-right'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.remove();
+  });
+}
+
 function buildStack(){
   stackEl.innerHTML = '';
   locked = false;
@@ -833,14 +810,14 @@ function buildStack(){
   wireBottom();
 
   // Show tutorial hints on the very first round only
-  const hintL = document.getElementById('hint-left');
-  const hintR = document.getElementById('hint-right');
+  removeHints();
   if(round === 0){
-    hintL.classList.add('visible');
-    hintR.classList.remove('visible');
-  } else {
-    hintL.classList.remove('visible');
-    hintR.classList.remove('visible');
+    const leftEl = document.getElementById('left');
+    const h = document.createElement('div');
+    h.id = 'hint-left';
+    h.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0 2px;animation:hintPulse 1.2s ease-in-out infinite;flex-shrink:0;';
+    h.innerHTML = '<div style="font-size:22px;color:#3fff6a;line-height:1;">↑</div><div style="font-family:\'Baloo 2\',sans-serif;font-size:10px;font-weight:800;letter-spacing:2px;color:#3fff6a;">TAP HERE</div>';
+    leftEl.appendChild(h);
   }
 }
 
@@ -854,11 +831,16 @@ function wireBottom(){
     e.preventDefault();
     if(!running) return;
     greens--;
-    // Hide tutorial hint on first tap
-    document.getElementById('hint-left').classList.remove('visible');
+    // Hide tutorial hints on first tap
+    removeHints();
     // Show right hint when pink is the last one remaining (round 0 only)
     if(greens === 0 && round === 0){
-      document.getElementById('hint-right').classList.add('visible');
+      const rightEl = document.getElementById('right');
+      const h = document.createElement('div');
+      h.id = 'hint-right';
+      h.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0 2px;animation:hintPulse 1.2s ease-in-out infinite;flex-shrink:0;';
+      h.innerHTML = '<div style="font-family:\'Baloo 2\',sans-serif;font-size:10px;font-weight:800;letter-spacing:2px;color:#ff3dbe;">TAP HERE</div><div style="font-size:22px;color:#ff3dbe;line-height:1;">↓</div>';
+      rightEl.insertBefore(h, rightEl.querySelector('#cbtn'));
     }
     bottom.classList.add('popped');
     bottom.addEventListener('animationend', () => bottom.remove(), {once:true});
