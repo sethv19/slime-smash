@@ -1295,12 +1295,11 @@ function gameComplete(){
 
 function doShare(text){
   if(navigator.share){
-    navigator.share({title:'Slime Smash', text:text, url:DAILY_URL}).catch(()=>{
-      // fallback if share fails
-      copyToClipboard(text);
+    navigator.share({title:'Slime Smash', text:text}).catch(()=>{
+      copyToClipboard(text + '\n' + DAILY_URL);
     });
   } else {
-    copyToClipboard(text);
+    copyToClipboard(text + '\n' + DAILY_URL);
   }
 }
 
@@ -1324,13 +1323,13 @@ function copyToClipboard(text){
 
 function shareClassic(ms, stars){
   const starStr = '⭐'.repeat(stars) + '☆'.repeat(3-stars);
-  const text = `Slime Smash ${starStr}\nTime: ${fmt(ms)}\n${DAILY_URL}`;
+  const text = `Slime Smash ${starStr}\nTime: ${fmt(ms)}`;
   doShare(text);
 }
 
 function shareDaily(key, ms, stars, streak){
   const starStr = '⭐'.repeat(stars) + '☆'.repeat(3-stars);
-  const text = `Slime Smash Daily — ${key}\n${starStr} ${fmt(ms)}\n🔥 ${streak} day streak\n${DAILY_URL}`;
+  const text = `Slime Smash Daily — ${key}\n${starStr} ${fmt(ms)}\n🔥 ${streak} day streak`;
   doShare(text);
 }
 
