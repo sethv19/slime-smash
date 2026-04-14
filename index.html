@@ -399,6 +399,32 @@ opacity:0;
 }
 .shake{animation:shake .3s ease;}
 
+/* ── TAP HINTS ── */
+.tap-hint{
+display:flex;flex-direction:column;align-items:center;gap:2px;
+flex-shrink:0;padding:6px 0 2px;
+animation:hintPulse 1.2s ease-in-out infinite;
+}
+.tap-hint-right{ opacity:0.4; }
+.hint-arrow{
+font-size:22px;
+color:var(–green);
+line-height:1;
+}
+.tap-hint-right .hint-arrow{ color:var(–pink); }
+.hint-text{
+font-family:‘Baloo 2’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
+font-size:10px;
+font-weight:800;
+letter-spacing:2px;
+color:var(–green);
+}
+.tap-hint-right .hint-text{ color:var(–pink); }
+@keyframes hintPulse{
+0%,100%{transform:translateY(0);opacity:1;}
+50%{transform:translateY(-4px);opacity:0.5;}
+}
+
 /* ════════════════════════════════
 COUNTDOWN OVERLAY
 ════════════════════════════════ */
@@ -541,15 +567,15 @@ text-shadow:0 0 40px rgba(63,255,106,.6), 3px 3px 0 var(–green-dk);
     </div>
     <div class="rule-card p">
       <div class="rule-num">2</div>
-      <div class="rule-text">When only the <b>pink slime</b> remains on the left, stop — do not tap it.</div>
+      <div class="rule-text">When only the <b>pink slime</b> remains, hit <b>LOCK IN</b> to complete the round.</div>
     </div>
     <div class="rule-card o">
       <div class="rule-num">3</div>
-      <div class="rule-text">Hit <b>LOCK IN</b> on the right once the pink slime is the last one standing to complete the round.</div>
+      <div class="rule-text">Complete all <b>5 rounds</b> as fast as possible. Your time is your score.</div>
     </div>
     <div class="rule-card r">
       <div class="rule-num">!</div>
-      <div class="rule-text"><b>Tap the pink slime</b> or <b>lock in too early</b> and it is game over. Beat your best time!</div>
+      <div class="rule-text"><b>Lock in too early</b> and it is game over. Beat your best time!</div>
     </div>
   </div>
 
@@ -578,12 +604,20 @@ text-shadow:0 0 40px rgba(63,255,106,.6), 3px 3px 0 var(–green-dk);
   <div id="stack-wrap">
     <div id="stack-inner"></div>
   </div>
+  <div id="hint-left" class="tap-hint" style="display:none">
+    <div class="hint-arrow">↑</div>
+    <div class="hint-text">TAP HERE</div>
+  </div>
 </div>
 
 <div id="div"></div>
 
 <!-- Right: pink lock-in -->
 <div id="right">
+  <div id="hint-right" class="tap-hint tap-hint-right" style="display:none">
+    <div class="hint-text">TAP HERE</div>
+    <div class="hint-arrow">↓</div>
+  </div>
   <div id="cbtn">
     <!-- Pink slime inside the button -->
     <svg class="cbtn-slime" viewBox="0 0 70 60" xmlns="http://www.w3.org/2000/svg">
@@ -785,17 +819,12 @@ function buildStack(){
   const sz = Math.max(Math.min(Math.floor(wrapH / 3.0), 114), 50);
 
   // Pink sits at the back (first in DOM = top of visual stack)
+  // Completely inert — tapping it does nothing
   const pinkEl = document.createElement('div');
   pinkEl.className = 'scard final';
   pinkEl.style.height = sz + 'px';
   pinkEl.innerHTML = svgSlime(PINK_V);
-  // Pink tap = game over only when no greens remain
-  const pinkTap = (e) => {
-    e.preventDefault();
-    if(!running || greens > 0) return;
-    gameOver('You tapped the pink slime!');
-  };
-  pinkEl.addEventListener('touchstart', pinkTap, {passive:false});
+  pinkEl.style.pointerEvents = 'none';
   stackEl.appendChild(pinkEl);
 
   // Greens: last appended = bottom of visual stack
@@ -808,6 +837,17 @@ function buildStack(){
   }
 
   wireBottom();
+
+  // Show tutorial hints on the very first round only
+  const hintL = document.getElementById('hint-left');
+  const hintR = document.getElementById('hint-right');
+  if(round === 0){
+    hintL.style.display = 'flex';
+    hintR.style.display = 'none'; // right hint shows only when pink is last
+  } else {
+    hintL.style.display = 'none';
+    hintR.style.display = 'none';
+  }
 }
 
 // Always wire just the last .green-card that isn't popping
@@ -820,6 +860,12 @@ function wireBottom(){
     e.preventDefault();
     if(!running) return;
     greens--;
+    // Hide tutorial hint on first tap
+    document.getElementById('hint-left').style.display = 'none';
+    // Show right hint when pink is the last one remaining (round 0 only)
+    if(greens === 0 && round === 0){
+      document.getElementById('hint-right').style.display = 'flex';
+    }
     bottom.classList.add('popped');
     bottom.addEventListener('animationend', () => bottom.remove(), {once:true});
     if(navigator.vibrate) navigator.vibrate(18);
