@@ -10,7 +10,442 @@
 <title>SLIME SMASH</title>
 <link rel="preconnect" href="https://fonts.bunny.net"/>
 <link href="https://fonts.bunny.net/css?family=baloo-2:700,800|nunito:700,800,900&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="style.css"/>
+<style>
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+–bg:#160c28;
+–panel:#1e1040;
+–green:#3fff6a;
+–green-dk:#009e35;
+–green-lt:#a8ffc0;
+–pink:#ff3dbe;
+–pink-dk:#b5007c;
+–pink-lt:#ffb3e8;
+}
+html,body{
+height:100%;overflow:hidden;
+touch-action:manipulation;
+-webkit-tap-highlight-color:transparent;
+user-select:none;
+font-family:‘Nunito’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
+color:#fff;
+}
+body{
+display:flex;flex-direction:column;align-items:center;
+height:100dvh;
+background:radial-gradient(ellipse at 50% -10%,#1a0828 0%,transparent 58%),var(–bg);
+}
+body::before{
+content:’’;position:fixed;inset:0;
+background-image:radial-gradient(rgba(255,255,255,0.025) 1px,transparent 1px);
+background-size:22px 22px;pointer-events:none;z-index:0;
+}
+
+/* ════════════════════════════════
+SHARED HEADER
+════════════════════════════════ */
+#hdr{
+width:100%;flex-shrink:0;
+background:linear-gradient(180deg,#1e0a38,#130820);
+border-bottom:3px solid var(–pink);
+box-shadow:0 3px 0 var(–pink-dk),0 5px 18px rgba(255,61,190,.15);
+padding:6px 14px 8px;
+display:flex;align-items:center;justify-content:center;
+position:relative;overflow:hidden;z-index:10;
+}
+
+#logo{
+font-family:‘Baloo 2’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
+font-size:clamp(22px,6vw,32px);
+line-height:1;letter-spacing:2px;
+text-align:center;
+}
+.s1{color:var(–green); text-shadow:2px 2px 0 var(–green-dk),-1px -1px 0 #000;}
+.s2{color:var(–pink);  text-shadow:2px 2px 0 var(–pink-dk), -1px -1px 0 #000;}
+
+/* ════════════════════════════════
+SCREENS
+════════════════════════════════ */
+.screen{
+flex:1;width:100%;max-width:480px;
+display:none;flex-direction:column;
+align-items:center;min-height:0;
+position:relative;z-index:1;
+}
+.screen.active{display:flex;}
+
+/* ════════════════════════════════
+MAIN MENU
+════════════════════════════════ */
+#menu{padding:0 0 16px;}
+
+/* Tab bar */
+#tabs{
+width:100%;display:flex;
+border-bottom:2px solid rgba(255,255,255,.08);
+flex-shrink:0;
+}
+.tab{
+flex:1;padding:11px 4px;
+font-family:‘Baloo 2’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
+font-size:clamp(14px,4vw,18px);
+letter-spacing:1px;
+color:rgba(255,255,255,.35);
+text-align:center;cursor:pointer;
+border-bottom:3px solid transparent;
+margin-bottom:-2px;
+transition:color .15s,border-color .15s;
+}
+.tab.active{color:#fff;border-bottom-color:var(–green);}
+
+/* Tab panels */
+.tab-panel{display:none;flex:1;width:100%;flex-direction:column;align-items:center;overflow-y:auto;padding:20px 18px 16px;}
+.tab-panel.active{display:flex;}
+
+/* ── CLASSIC TAB ── */
+#tab-classic{gap:20px;justify-content:center;}
+
+.menu-stack{
+display:flex;flex-direction:column;align-items:center;gap:0;
+}
+.menu-stack svg{
+width:clamp(60px,18vw,90px);height:auto;
+filter:drop-shadow(0 3px 6px rgba(0,0,0,0.4));
+margin-bottom:-8px;
+}
+.menu-stack svg:last-child{margin-bottom:0;}
+
+.play-btn{
+font-family:‘Baloo 2’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
+font-size:26px;letter-spacing:5px;
+padding:14px 52px;border-radius:50px;
+border:none;cursor:pointer;
+background:linear-gradient(160deg,var(–green),var(–green-dk));
+color:#002a10;
+box-shadow:0 5px 0 #004a18;
+transition:transform .07s,box-shadow .07s;
+}
+.play-btn:active{transform:translateY(4px);box-shadow:0 1px 0 #004a18;}
+
+/* ── HIGH SCORE TAB ── */
+#tab-scores{gap:12px;justify-content:flex-start;}
+
+.scores-title{
+font-family:‘Baloo 2’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
+font-size:20px;letter-spacing:2px;
+color:var(–green);
+text-shadow:1px 1px 0 var(–green-dk);
+align-self:flex-start;
+}
+
+.score-list{
+width:100%;display:flex;flex-direction:column;gap:6px;
+}
+.score-row{
+display:flex;align-items:center;gap:10px;
+background:rgba(255,255,255,.05);
+border:1px solid rgba(255,255,255,.08);
+border-radius:10px;
+padding:9px 14px;
+}
+.score-rank{
+font-family:‘Baloo 2’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
+font-size:18px;min-width:28px;text-align:center;
+}
+.rank-1{color:var(–green);}
+.rank-2{color:var(–pink-lt);}
+.rank-3{color:var(–green-lt);}
+.rank-other{color:rgba(255,255,255,.3);}
+
+.score-time{
+font-family:‘Baloo 2’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
+font-size:22px;letter-spacing:1px;color:#fff;
+flex:1;
+}
+.score-rounds{
+font-size:11px;font-weight:800;letter-spacing:2px;
+color:rgba(255,255,255,.35);
+}
+.no-scores{
+font-size:13px;font-weight:800;letter-spacing:1px;
+color:rgba(255,255,255,.3);
+text-align:center;padding:24px 0;
+}
+
+.clear-btn{
+font-family:‘Baloo 2’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
+font-size:13px;letter-spacing:2px;
+padding:7px 20px;border-radius:20px;
+border:1.5px solid rgba(255,61,190,.4);
+background:rgba(255,61,190,.08);
+color:var(–pink);cursor:pointer;
+margin-top:4px;
+transition:background .12s;
+}
+.clear-btn:active{background:rgba(255,61,190,.2);}
+
+/* ── RULES TAB ── */
+#tab-rules{gap:12px;justify-content:flex-start;}
+
+.rules-title{
+font-family:‘Baloo 2’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
+font-size:20px;letter-spacing:2px;
+color:var(–pink);
+align-self:flex-start;
+}
+
+.rule-card{
+width:100%;border-radius:12px;
+padding:12px 14px;
+display:flex;align-items:flex-start;gap:12px;
+}
+.rule-card.g{background:rgba(63,255,106,.07); border:1.5px solid rgba(63,255,106,.3);}
+.rule-card.p{background:rgba(255,61,190,.07); border:1.5px solid rgba(255,61,190,.3);}
+.rule-card.o{background:rgba(255,61,190,.07); border:1.5px solid rgba(255,61,190,.3);}
+.rule-card.r{background:rgba(63,255,106,.07); border:1.5px solid rgba(63,255,106,.3);}
+
+.rule-num{
+font-family:‘Baloo 2’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
+font-size:22px;line-height:1;flex-shrink:0;margin-top:1px;
+}
+.rule-card.g .rule-num{color:var(–green);}
+.rule-card.p .rule-num{color:var(–pink);}
+.rule-card.o .rule-num{color:var(–pink);}
+.rule-card.r .rule-num{color:var(–green);}
+
+.rule-text{font-size:13px;font-weight:800;line-height:1.6;letter-spacing:.2px;color:rgba(255,255,255,.8);}
+.rule-text b{color:#fff;}
+
+/* ════════════════════════════════
+GAME SCREEN
+════════════════════════════════ */
+#game{padding:0;}
+
+/* Timer bar */
+#timer-bar{
+width:100%;flex-shrink:0;
+display:flex;flex-direction:column;align-items:center;
+padding:6px 0 4px;
+background:rgba(0,0,0,.2);
+border-bottom:1px solid rgba(255,255,255,.06);
+}
+#timer-lbl{font-size:8px;letter-spacing:4px;font-weight:900;color:var(–green-lt);}
+#timer-val{
+font-family:‘Baloo 2’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
+font-size:clamp(44px,12vw,64px);
+line-height:1;letter-spacing:3px;
+color:#fff;text-shadow:2px 2px 0 #000,0 0 20px rgba(255,255,255,.2);
+}
+
+/* Field */
+#field{
+flex:1;width:100%;max-width:440px;
+display:flex;gap:0;min-height:0;
+padding:8px 10px 10px;
+}
+
+/* Left col */
+#left{flex:1;display:flex;flex-direction:column;min-height:0;}
+
+.col-tag{
+flex-shrink:0;align-self:center;
+font-size:9px;letter-spacing:3px;font-weight:900;
+padding:3px 10px;border-radius:20px;
+text-transform:uppercase;margin-bottom:6px;
+}
+.ct-smash{background:var(–green);color:#002a10;box-shadow:0 2px 0 var(–green-dk);}
+
+#stack-wrap{
+flex:1;min-height:0;overflow:hidden;position:relative;
+display:flex;flex-direction:column;justify-content:flex-end;
+}
+#stack-wrap::before{
+content:’’;position:absolute;top:0;left:0;right:0;height:52%;
+background:linear-gradient(to bottom,var(–bg) 0%,rgba(22,12,40,.84) 42%,transparent 100%);
+pointer-events:none;z-index:2;
+}
+#stack-wrap::after{
+content:’’;position:absolute;top:0;left:0;right:0;height:26%;
+background:linear-gradient(to bottom,var(–bg),transparent);
+pointer-events:none;z-index:3;
+}
+#stack-inner{
+display:flex;flex-direction:column;align-items:center;gap:2px;flex-shrink:0;
+}
+
+/* Slime cards */
+.scard{width:100%;max-width:140px;flex-shrink:0;pointer-events:auto;cursor:pointer;touch-action:manipulation;}
+.scard svg{display:block;width:100%;height:auto;}
+.scard.final{pointer-events:auto;cursor:pointer;touch-action:manipulation;}
+.scard.popped{
+animation:slimePop 0.08s ease forwards;
+pointer-events:none;
+}
+@keyframes slimePop{
+0%  {transform:scale(1.12);opacity:1;}
+100%{transform:scale(0.3);opacity:0;}
+}
+
+/* Divider */
+#div{
+width:2px;margin:0 6px;flex-shrink:0;border-radius:2px;
+background:linear-gradient(to bottom,transparent,rgba(255,61,190,.3) 25%,rgba(255,61,190,.3) 75%,transparent);
+}
+
+/* Right col */
+#right{
+flex:1;display:flex;flex-direction:column;
+align-items:center;justify-content:flex-end;
+padding-bottom:4px;min-height:0;
+}
+
+/* Lock-in button — pink slime themed, always same appearance */
+#cbtn{
+width:min(130px,88%);aspect-ratio:1;border-radius:50%;
+border:4px solid var(–pink);
+background:linear-gradient(160deg,#3a0030,#1e0018);
+box-shadow:0 5px 0 var(–pink-dk);
+cursor:pointer;
+touch-action:manipulation;
+display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+flex-shrink:0;
+}
+#cbtn .cbtn-slime{width:65%;height:auto;pointer-events:none;}
+#cbtn:active{transform:scale(0.88) translateY(5px);box-shadow:0 1px 0 var(–pink-dk);transition:transform .05s;}
+
+/* ════════════════════════════════
+GAME OVER OVERLAY
+════════════════════════════════ */
+#go-screen{
+position:fixed;inset:0;z-index:60;
+display:none;flex-direction:column;
+align-items:center;justify-content:center;
+gap:14px;padding:28px 24px;
+background:rgba(12,4,26,.96);
+backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+}
+.go-title{
+font-family:‘Baloo 2’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
+font-size:clamp(60px,16vw,88px);
+color:var(–pink);
+text-shadow:3px 3px 0 var(–pink-dk);
+line-height:1;
+}
+.go-reason{
+font-size:13px;font-weight:800;letter-spacing:.5px;
+color:rgba(255,255,255,.45);text-align:center;
+}
+.go-box{
+background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.09);
+border-radius:14px;padding:13px 30px;width:100%;max-width:240px;
+}
+.go-row{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:3px 0;}
+.go-lbl{font-size:9px;letter-spacing:3px;font-weight:900;color:rgba(255,255,255,.3);text-transform:uppercase;}
+.go-val{font-family:‘Baloo 2’,‘Arial Rounded MT Bold’,system-ui,sans-serif;font-size:30px;letter-spacing:1px;}
+
+.go-btns{display:flex;gap:10px;}
+.abtn{
+font-family:‘Baloo 2’,‘Arial Rounded MT Bold’,system-ui,sans-serif;font-size:20px;letter-spacing:3px;
+padding:12px 28px;border-radius:50px;border:none;cursor:pointer;
+transition:transform .07s,box-shadow .07s;
+}
+.abtn:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(0,0,0,.4)!important;}
+.btn-retry{background:linear-gradient(160deg,var(–green),var(–green-dk));color:#002a10;box-shadow:0 4px 0 #004a18;}
+.btn-menu {background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);color:rgba(255,255,255,.7);box-shadow:0 4px 0 rgba(0,0,0,.3);}
+
+.go-best{font-family:‘Baloo 2’,‘Arial Rounded MT Bold’,system-ui,sans-serif;font-size:13px;color:var(–green);letter-spacing:1px;}
+
+/* ════════════════════════════════
+FLASH + SPLAT
+════════════════════════════════ */
+#flash{position:fixed;inset:0;pointer-events:none;z-index:80;opacity:0;}
+#flash.good{animation:fg .2s ease forwards;}
+@keyframes fg{0%{background:rgba(63,255,106,.22);opacity:1;}100%{opacity:0;}}
+
+/* Slime splat on game over */
+#splat{
+position:fixed;inset:0;pointer-events:none;z-index:81;
+display:flex;align-items:center;justify-content:center;
+opacity:0;
+}
+#splat.active{animation:splatAnim .55s ease forwards;}
+@keyframes splatAnim{
+0%  {opacity:1;transform:scale(0.2);}
+40% {opacity:1;transform:scale(1.35);}
+65% {opacity:1;transform:scale(0.92);}
+80% {opacity:1;transform:scale(1.08);}
+100%{opacity:0;transform:scale(1.15);}
+}
+#splat svg{width:min(80vw,80vh);height:auto;}
+@keyframes shake{
+0%,100%{transform:translateX(0);}
+15%{transform:translateX(-8px) rotate(-.8deg);}
+35%{transform:translateX(8px) rotate(.8deg);}
+55%{transform:translateX(-5px);}75%{transform:translateX(4px);}
+}
+.shake{animation:shake .3s ease;}
+
+/* ── TAP HINTS ── */
+.tap-hint{
+display:flex;flex-direction:column;align-items:center;gap:2px;
+flex-shrink:0;padding:6px 0 2px;
+animation:hintPulse 1.2s ease-in-out infinite;
+}
+.tap-hint-right{ opacity:0.4; }
+.hint-arrow{
+font-size:22px;
+color:var(–green);
+line-height:1;
+}
+.tap-hint-right .hint-arrow{ color:var(–pink); }
+.hint-text{
+font-family:‘Baloo 2’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
+font-size:10px;
+font-weight:800;
+letter-spacing:2px;
+color:var(–green);
+}
+.tap-hint-right .hint-text{ color:var(–pink); }
+@keyframes hintPulse{
+0%,100%{transform:translateY(0);opacity:1;}
+50%{transform:translateY(-4px);opacity:0.5;}
+}
+
+/* ════════════════════════════════
+COUNTDOWN OVERLAY
+════════════════════════════════ */
+#countdown{
+position:fixed;inset:0;z-index:70;
+display:none;
+align-items:center;justify-content:center;
+background:rgba(12,4,26,.82);
+backdrop-filter:blur(4px);
+-webkit-backdrop-filter:blur(4px);
+pointer-events:all;
+}
+#countdown.active{display:flex;}
+
+#cd-num{
+font-family:‘Baloo 2’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
+font-size:clamp(100px,30vw,160px);
+line-height:1;
+letter-spacing:2px;
+animation:cdPop .75s ease forwards;
+}
+#cd-num.go{
+font-size:clamp(72px,22vw,120px);
+color:var(–green) !important;
+text-shadow:0 0 40px rgba(63,255,106,.6), 3px 3px 0 var(–green-dk);
+}
+@keyframes cdPop{
+0%  {transform:scale(1.6);opacity:0;}
+25% {transform:scale(0.92);opacity:1;}
+70% {transform:scale(1);opacity:1;}
+100%{transform:scale(0.8);opacity:0;}
+}
+
+</style>
 </head>
 <body>
 <div id="flash"></div>
@@ -115,19 +550,19 @@
     <div class="rules-title">How to Play</div>
     <div class="rule-card g">
       <div class="rule-num">1</div>
-      <div class="rule-text">Tap the <b>bottom green slime</b> to smash it. Keep tapping until only the pink one is left.</div>
+      <div class="rule-text">Smash all the <b>green slimes</b> by tapping the bottom one.</div>
     </div>
     <div class="rule-card p">
       <div class="rule-num">2</div>
-      <div class="rule-text">When only the <b>pink slime</b> remains, hit <b>LOCK IN</b> to complete the round.</div>
+      <div class="rule-text">When the <b>pink slime</b> is the only one left, tap <b>LOCK IN.</b></div>
     </div>
     <div class="rule-card o">
       <div class="rule-num">3</div>
-      <div class="rule-text">Complete all <b>5 rounds</b> as fast as possible. Your time is your score.</div>
+      <div class="rule-text">Do this across <b>5 rounds</b> as fast as you can.</div>
     </div>
     <div class="rule-card r">
       <div class="rule-num">!</div>
-      <div class="rule-text"><b>Lock in too early</b> and it is game over. Beat your best time!</div>
+      <div class="rule-text">Tap <b>LOCK IN</b> too early and it is game over!</div>
     </div>
   </div>
 
@@ -215,7 +650,361 @@
   <div class="go-best" id="go-best" style="display:none"></div>
 </div>
 
-<script src="game.js" defer></script>
+<script>
+
+// ══════════════════════════
+// CONFIG
+// ══════════════════════════
+const TOTAL_ROUNDS  = 5;
+const TOTAL_SLIMES  = 50;
+const MIN_PER_ROUND = 3;
+const MAX_SCORES    = 10;
+const GREEN_V = {body:'#3fff6a', dark:'#009e35', eye:'#002a10'};
+const PINK_V  = {body:'#ff3dbe', dark:'#b5007c', eye:'#2a0018'};
+
+// ══════════════════════════
+// STATE
+// ══════════════════════════
+let timerInt = null, t0 = 0, elapsed = 0;
+let running  = false;
+let round    = 0;          // 0-indexed, increments after each valid lock-in
+let roundCounts = [];
+let greens  = 0;           // greens left in current round — THE only lock-in gate
+let locked  = false;       // brief cooldown between rounds
+
+// ══════════════════════════
+// ELEMENT REFS
+// ══════════════════════════
+const timerVal = document.getElementById('timer-val');
+const stackEl  = document.getElementById('stack-inner');
+const cbtn     = document.getElementById('cbtn');
+const flashEl  = document.getElementById('flash');
+const goScreen = document.getElementById('go-screen');
+
+// ══════════════════════════
+// NAVIGATION
+// ══════════════════════════
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+document.querySelectorAll('.tab').forEach(tab => {
+  const handler = () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+    if(tab.dataset.tab === 'scores') renderScores();
+  };
+  tab.addEventListener('touchend', e => { e.preventDefault(); handler(); });
+});
+
+// ══════════════════════════
+// SCORES
+// ══════════════════════════
+function getScores(){
+  try{ return JSON.parse(localStorage.getItem('slimesmash_scores') || '[]'); }
+  catch(e){ return []; }
+}
+function saveScore(ms, rounds){
+  const scores = getScores();
+  scores.push({ms, rounds});
+  scores.sort((a, b) => {
+    const af = a.rounds >= TOTAL_ROUNDS, bf = b.rounds >= TOTAL_ROUNDS;
+    if(af && bf) return a.ms - b.ms;
+    if(af) return -1;
+    if(bf) return 1;
+    return b.rounds - a.rounds || a.ms - b.ms;
+  });
+  scores.splice(MAX_SCORES);
+  localStorage.setItem('slimesmash_scores', JSON.stringify(scores));
+}
+function renderScores(){
+  const list = document.getElementById('score-list');
+  const scores = getScores();
+  if(!scores.length){
+    list.innerHTML = '<div class="no-scores">No scores yet.<br>Play a round!</div>';
+    return;
+  }
+  list.innerHTML = scores.map((s, i) => {
+    const cls   = i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':'rank-other';
+    const medal = i===0?'1st':i===1?'2nd':i===2?'3rd':`${i+1}th`;
+    const lbl   = s.rounds >= TOTAL_ROUNDS ? '<span style="color:var(--green);font-weight:900;">WON</span>' : `${s.rounds}/${TOTAL_ROUNDS}`;
+    return `<div class="score-row">
+      <div class="score-rank ${cls}">${medal}</div>
+      <div class="score-time">${fmt(s.ms)}</div>
+      <div class="score-rounds">${lbl}</div>
+    </div>`;
+  }).join('');
+}
+document.getElementById('clear-btn').addEventListener('touchend', e => {
+  e.preventDefault();
+  localStorage.removeItem('slimesmash_scores'); renderScores();
+});
+
+// ══════════════════════════
+// TIMER
+// ══════════════════════════
+function startTimer(){
+  t0 = performance.now() - elapsed;
+  timerInt = setInterval(() => {
+    elapsed = performance.now() - t0;
+    timerVal.textContent = (elapsed / 1000).toFixed(2);
+  }, 50);
+}
+function stopTimer(){ clearInterval(timerInt); }
+function fmt(ms){ return (ms / 1000).toFixed(2) + 's'; }
+
+// ══════════════════════════
+// FLASH
+// ══════════════════════════
+function flash(c){ flashEl.className = ''; void flashEl.offsetWidth; flashEl.className = c; }
+
+// ══════════════════════════
+// SVG
+// ══════════════════════════
+function svgSlime(v){
+  return `<svg viewBox="0 0 70 60" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="35" cy="57" rx="18" ry="4" fill="rgba(0,0,0,0.22)"/>
+    <ellipse cx="35" cy="32" rx="26" ry="21" fill="${v.body}"/>
+    <ellipse cx="20" cy="19" rx="11" ry="10" fill="${v.body}"/>
+    <ellipse cx="35" cy="13" rx="12" ry="10" fill="${v.body}"/>
+    <ellipse cx="50" cy="19" rx="11" ry="10" fill="${v.body}"/>
+    <ellipse cx="27" cy="23" rx="9" ry="5.5" fill="rgba(255,255,255,.25)" transform="rotate(-15,27,23)"/>
+    <circle cx="27" cy="33" r="7" fill="white"/><circle cx="43" cy="33" r="7" fill="white"/>
+    <circle cx="28" cy="34" r="4" fill="${v.eye}"/><circle cx="44" cy="34" r="4" fill="${v.eye}"/>
+    <circle cx="29" cy="32" r="1.6" fill="white"/><circle cx="45" cy="32" r="1.6" fill="white"/>
+    <path d="M28 44 Q35 50 42 44" stroke="${v.dark}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  </svg>`;
+}
+
+// ══════════════════════════
+// ROUND DISTRIBUTION
+// ══════════════════════════
+function generateRoundCounts(){
+  const counts = Array(TOTAL_ROUNDS).fill(MIN_PER_ROUND);
+  let rem = TOTAL_SLIMES - MIN_PER_ROUND * TOTAL_ROUNDS;
+  for(let i = 0; i < rem; i++) counts[Math.floor(Math.random() * TOTAL_ROUNDS)]++;
+  for(let i = counts.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [counts[i], counts[j]] = [counts[j], counts[i]];
+  }
+  return counts;
+}
+
+// ══════════════════════════
+// BUILD STACK
+// ══════════════════════════
+function buildStack(){
+  stackEl.innerHTML = '';
+  locked = false;
+
+  const count = roundCounts[round];
+  greens = count;   // set AFTER clearing, right before building
+
+  const wrapH = document.getElementById('stack-wrap').clientHeight;
+  const sz = Math.max(Math.min(Math.floor(wrapH / 3.0), 114), 50);
+
+  // Pink sits at the back (first in DOM = top of visual stack)
+  // Completely inert — tapping it does nothing
+  const pinkEl = document.createElement('div');
+  pinkEl.className = 'scard final';
+  pinkEl.style.height = sz + 'px';
+  pinkEl.innerHTML = svgSlime(PINK_V);
+  pinkEl.style.pointerEvents = 'none';
+  stackEl.appendChild(pinkEl);
+
+  // Greens: last appended = bottom of visual stack
+  for(let i = 0; i < count; i++){
+    const el = document.createElement('div');
+    el.className = 'scard green-card';
+    el.style.height = sz + 'px';
+    el.innerHTML = svgSlime(GREEN_V);
+    stackEl.appendChild(el);
+  }
+
+  wireBottom();
+
+  // Show tutorial hints on the very first round only
+  const hintL = document.getElementById('hint-left');
+  const hintR = document.getElementById('hint-right');
+  if(round === 0){
+    hintL.style.display = 'flex';
+    hintR.style.display = 'none'; // right hint shows only when pink is last
+  } else {
+    hintL.style.display = 'none';
+    hintR.style.display = 'none';
+  }
+}
+
+// Always wire just the last .green-card that isn't popping
+function wireBottom(){
+  const cards = Array.from(stackEl.querySelectorAll('.green-card:not(.popped)'));
+  if(!cards.length) return;
+  const bottom = cards[cards.length - 1];
+
+  const onTap = (e) => {
+    e.preventDefault();
+    if(!running) return;
+    greens--;
+    // Hide tutorial hint on first tap
+    document.getElementById('hint-left').style.display = 'none';
+    // Show right hint when pink is the last one remaining (round 0 only)
+    if(greens === 0 && round === 0){
+      document.getElementById('hint-right').style.display = 'flex';
+    }
+    bottom.classList.add('popped');
+    bottom.addEventListener('animationend', () => bottom.remove(), {once:true});
+    if(navigator.vibrate) navigator.vibrate(18);
+    wireBottom();
+  };
+
+  bottom.addEventListener('touchstart', onTap, {once:true, passive:false});
+}
+
+// ══════════════════════════
+// LOCK IN
+// ══════════════════════════
+cbtn.addEventListener('touchstart', onLockIn, {passive:false});
+
+function onLockIn(e){
+  e.preventDefault();
+  if(!running) return;
+  if(locked) return;
+
+  if(greens !== 0){
+    gameOver('You locked in too early!');
+    return;
+  }
+
+  locked = true;
+  flash('good');
+  if(navigator.vibrate) navigator.vibrate([18,10,18,10,30]);
+  round++;
+
+  if(round >= TOTAL_ROUNDS){
+    gameComplete();
+    return;
+  }
+
+  setTimeout(() => buildStack(), 120);
+}
+
+// ══════════════════════════
+// GAME OVER
+// ══════════════════════════
+function gameOver(reason){
+  stopTimer();
+  running = false;
+  if(navigator.vibrate) navigator.vibrate([80,40,80,40,160]);
+  const splat = document.getElementById('splat');
+  splat.classList.remove('active');
+  void splat.offsetWidth;
+  splat.classList.add('active');
+  const f = document.getElementById('field');
+  f.classList.remove('shake'); void f.offsetWidth; f.classList.add('shake');
+
+  saveScore(elapsed, round);
+  const scores  = getScores();
+  const myRank  = scores.findIndex(s => s.ms === elapsed && s.rounds === round);
+
+  setTimeout(() => {
+    document.getElementById('go-reason').textContent = reason;
+    document.getElementById('go-time').textContent   = fmt(elapsed);
+    document.getElementById('go-rounds').textContent = round;
+    const gob = document.getElementById('go-best');
+    if(myRank === 0 && round > 0){ gob.style.display='block'; gob.textContent='NEW BEST!'; }
+    else if(scores.length){ gob.style.display='block'; gob.textContent=`BEST  ${fmt(scores[0].ms)}`; }
+    else gob.style.display='none';
+    goScreen.style.display = 'flex';
+  }, 340);
+}
+
+// ══════════════════════════
+// GAME COMPLETE
+// ══════════════════════════
+function gameComplete(){
+  stopTimer();
+  running = false;
+  if(navigator.vibrate) navigator.vibrate([30,20,30,20,80,20,80]);
+
+  saveScore(elapsed, TOTAL_ROUNDS);
+  const scores = getScores();
+  const myRank = scores.findIndex(s => s.ms === elapsed && s.rounds === TOTAL_ROUNDS);
+
+  setTimeout(() => {
+    document.getElementById('go-reason').textContent  = 'You finished all 5 rounds!';
+    document.getElementById('go-time').textContent    = fmt(elapsed);
+    document.getElementById('go-rounds').textContent  = TOTAL_ROUNDS + ' / ' + TOTAL_ROUNDS;
+    const gob = document.getElementById('go-best');
+    if(myRank === 0){ gob.style.display='block'; gob.textContent='NEW BEST!'; }
+    else if(scores.length){ gob.style.display='block'; gob.textContent=`BEST  ${fmt(scores[0].ms)}`; }
+    else gob.style.display='none';
+    document.getElementById('go-title').textContent = 'DONE!';
+    document.getElementById('go-title').style.color = 'var(--green)';
+    goScreen.style.display = 'flex';
+  }, 200);
+}
+
+// ══════════════════════════
+// COUNTDOWN
+// ══════════════════════════
+function runCountdown(onDone){
+  const overlay = document.getElementById('countdown');
+  const numEl   = document.getElementById('cd-num');
+  const steps   = ['3','2','1','GO!'];
+  const colors  = ['#fff','#fff','#fff','var(--green)'];
+  let i = 0;
+  overlay.classList.add('active');
+
+  function tick(){
+    numEl.classList.remove('go');
+    numEl.style.color = colors[i];
+    numEl.textContent = steps[i];
+    numEl.style.animation = 'none';
+    void numEl.offsetWidth;
+    numEl.style.animation = '';
+    if(steps[i] === 'GO!') numEl.classList.add('go');
+    if(navigator.vibrate) navigator.vibrate(i < 3 ? 30 : 60);
+    i++;
+    if(i < steps.length){
+      setTimeout(tick, 750);
+    } else {
+      setTimeout(() => { overlay.classList.remove('active'); onDone(); }, 750);
+    }
+  }
+  tick();
+}
+
+// ══════════════════════════
+// START / RETRY / MENU
+// ══════════════════════════
+function startGame(){
+  goScreen.style.display = 'none';
+  document.getElementById('go-title').textContent = 'KO!';
+  document.getElementById('go-title').style.color = '';
+  showScreen('game');
+  elapsed = 0; round = 0; greens = 0; locked = false;
+  timerVal.textContent = '0.00';
+  roundCounts = generateRoundCounts();
+  running = false;
+  buildStack();
+  runCountdown(() => { running = true; startTimer(); });
+}
+
+document.getElementById('play-btn').addEventListener('touchend', e => { e.preventDefault(); startGame(); });
+document.getElementById('retry-btn').addEventListener('touchend', e => { e.preventDefault(); startGame(); });
+document.getElementById('menu-btn').addEventListener('touchend', e => { e.preventDefault(); goToMenu(); });
+
+function goToMenu(){
+  stopTimer();
+  running = false;
+  goScreen.style.display = 'none';
+  showScreen('menu');
+}
+
+</script>
 
 </body>
 </html>
