@@ -929,7 +929,7 @@ function gameComplete(){
     if(myRank === 0){ gob.style.display='block'; gob.textContent='NEW BEST!'; }
     else if(scores.length){ gob.style.display='block'; gob.textContent=`BEST  ${fmt(scores[0].ms)}`; }
     else gob.style.display='none';
-    document.getElementById('go-title').textContent = 'DONE!';
+    document.getElementById('go-title').textContent = 'CONGRATS!';
     document.getElementById('go-title').style.color = '#3fff6a';
     goScreen.style.display = 'flex';
   }, 200);
