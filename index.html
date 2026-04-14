@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+<meta http-equiv="Pragma" content="no-cache"/>
+<meta http-equiv="Expires" content="0"/>
+<title>SLIME SMASH</title>
+<link rel="preconnect" href="https://fonts.bunny.net"/>
+<link href="https://fonts.bunny.net/css?family=baloo-2:700,800|nunito:700,800,900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<div id="flash"></div>
+<div id="countdown">
+  <div id="cd-num">3</div>
+</div>
+<div id="splat">
+  <!-- KO green slime splat — big, centered -->
+  <svg viewBox="0 0 70 60" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="35" cy="57" rx="18" ry="4" fill="rgba(0,0,0,0.15)"/>
+    <ellipse cx="35" cy="35" rx="26" ry="18" fill="#3fff6a"/>
+    <ellipse cx="20" cy="23" rx="11" ry="9" fill="#3fff6a"/>
+    <ellipse cx="35" cy="17" rx="12" ry="9" fill="#3fff6a"/>
+    <ellipse cx="50" cy="23" rx="11" ry="9" fill="#3fff6a"/>
+    <ellipse cx="27" cy="26" rx="9" ry="5.5" fill="rgba(255,255,255,.18)" transform="rotate(-15,27,26)"/>
+    <line x1="21" y1="30" x2="33" y2="42" stroke="#002a10" stroke-width="3.5" stroke-linecap="round"/>
+    <line x1="33" y1="30" x2="21" y2="42" stroke="#002a10" stroke-width="3.5" stroke-linecap="round"/>
+    <line x1="37" y1="30" x2="49" y2="42" stroke="#002a10" stroke-width="3.5" stroke-linecap="round"/>
+    <line x1="49" y1="30" x2="37" y2="42" stroke="#002a10" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M27 47 Q31 42 35 47 Q39 52 43 47" stroke="#009e35" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  </svg>
+</div>
+
+<!-- SHARED HEADER -->
+
+<div id="hdr">
+  <div id="logo"><span class="s1">SLIME</span> <span class="s2">SMASH</span></div>
+</div>
+
+<!-- ══════════════════════════════
+     MAIN MENU SCREEN
+══════════════════════════════ -->
+
+<div class="screen active" id="menu">
+
+  <!-- Tab bar -->
+
+  <div id="tabs">
+    <div class="tab active" data-tab="classic">Classic</div>
+    <div class="tab"        data-tab="scores">High Score</div>
+    <div class="tab"        data-tab="rules">Rules</div>
+  </div>
+
+  <!-- Classic -->
+
+  <div class="tab-panel active" id="tab-classic">
+    <div class="menu-stack">
+      <!-- pink on top (last remaining) -->
+      <svg viewBox="0 0 70 60" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="35" cy="57" rx="18" ry="4" fill="rgba(0,0,0,0.22)"/>
+        <ellipse cx="35" cy="32" rx="26" ry="21" fill="#ff3dbe"/>
+        <ellipse cx="20" cy="19" rx="11" ry="10" fill="#ff3dbe"/>
+        <ellipse cx="35" cy="13" rx="12" ry="10" fill="#ff3dbe"/>
+        <ellipse cx="50" cy="19" rx="11" ry="10" fill="#ff3dbe"/>
+        <ellipse cx="27" cy="23" rx="9" ry="5.5" fill="rgba(255,255,255,.25)" transform="rotate(-15,27,23)"/>
+        <circle cx="27" cy="33" r="7" fill="white"/><circle cx="43" cy="33" r="7" fill="white"/>
+        <circle cx="28" cy="34" r="4" fill="#2a0018"/><circle cx="44" cy="34" r="4" fill="#2a0018"/>
+        <circle cx="29" cy="32" r="1.6" fill="white"/><circle cx="45" cy="32" r="1.6" fill="white"/>
+        <path d="M28 44 Q35 50 42 44" stroke="#b5007c" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      </svg>
+      <!-- green middle -->
+      <svg viewBox="0 0 70 60" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="35" cy="57" rx="18" ry="4" fill="rgba(0,0,0,0.22)"/>
+        <ellipse cx="35" cy="32" rx="26" ry="21" fill="#3fff6a"/>
+        <ellipse cx="20" cy="19" rx="11" ry="10" fill="#3fff6a"/>
+        <ellipse cx="35" cy="13" rx="12" ry="10" fill="#3fff6a"/>
+        <ellipse cx="50" cy="19" rx="11" ry="10" fill="#3fff6a"/>
+        <ellipse cx="27" cy="23" rx="9" ry="5.5" fill="rgba(255,255,255,.25)" transform="rotate(-15,27,23)"/>
+        <circle cx="27" cy="33" r="7" fill="white"/><circle cx="43" cy="33" r="7" fill="white"/>
+        <circle cx="28" cy="34" r="4" fill="#002a10"/><circle cx="44" cy="34" r="4" fill="#002a10"/>
+        <circle cx="29" cy="32" r="1.6" fill="white"/><circle cx="45" cy="32" r="1.6" fill="white"/>
+        <path d="M28 44 Q35 50 42 44" stroke="#009e35" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      </svg>
+      <!-- green bottom (first tapped) -->
+      <svg viewBox="0 0 70 60" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="35" cy="57" rx="18" ry="4" fill="rgba(0,0,0,0.22)"/>
+        <ellipse cx="35" cy="32" rx="26" ry="21" fill="#3fff6a"/>
+        <ellipse cx="20" cy="19" rx="11" ry="10" fill="#3fff6a"/>
+        <ellipse cx="35" cy="13" rx="12" ry="10" fill="#3fff6a"/>
+        <ellipse cx="50" cy="19" rx="11" ry="10" fill="#3fff6a"/>
+        <ellipse cx="27" cy="23" rx="9" ry="5.5" fill="rgba(255,255,255,.25)" transform="rotate(-15,27,23)"/>
+        <circle cx="27" cy="33" r="7" fill="white"/><circle cx="43" cy="33" r="7" fill="white"/>
+        <circle cx="28" cy="34" r="4" fill="#002a10"/><circle cx="44" cy="34" r="4" fill="#002a10"/>
+        <circle cx="29" cy="32" r="1.6" fill="white"/><circle cx="45" cy="32" r="1.6" fill="white"/>
+        <path d="M28 44 Q35 50 42 44" stroke="#009e35" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <button class="play-btn" id="play-btn">PLAY</button>
+  </div>
+
+  <!-- High Scores -->
+
+  <div class="tab-panel" id="tab-scores">
+    <div class="scores-title">Top 10 Times</div>
+    <div class="score-list" id="score-list"></div>
+    <button class="clear-btn" id="clear-btn">Clear Scores</button>
+  </div>
+
+  <!-- Rules -->
+
+  <div class="tab-panel" id="tab-rules">
+    <div class="rules-title">How to Play</div>
+    <div class="rule-card g">
+      <div class="rule-num">1</div>
+      <div class="rule-text">Tap the <b>bottom green slime</b> to smash it. Keep tapping until only the pink one is left.</div>
+    </div>
+    <div class="rule-card p">
+      <div class="rule-num">2</div>
+      <div class="rule-text">When only the <b>pink slime</b> remains, hit <b>LOCK IN</b> to complete the round.</div>
+    </div>
+    <div class="rule-card o">
+      <div class="rule-num">3</div>
+      <div class="rule-text">Complete all <b>5 rounds</b> as fast as possible. Your time is your score.</div>
+    </div>
+    <div class="rule-card r">
+      <div class="rule-num">!</div>
+      <div class="rule-text"><b>Lock in too early</b> and it is game over. Beat your best time!</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════
+     GAME SCREEN
+══════════════════════════════ -->
+
+<div class="screen" id="game">
+
+  <!-- Timer -->
+
+  <div id="timer-bar">
+    <div id="timer-lbl">TIME</div>
+    <div id="timer-val">0.00</div>
+  </div>
+
+  <!-- Play field -->
+
+  <div id="field">
+
+```
+<!-- Left: green stack -->
+<div id="left">
+  <div id="stack-wrap">
+    <div id="stack-inner"></div>
+  </div>
+  <div id="hint-left" class="tap-hint" style="display:none">
+    <div class="hint-arrow">↑</div>
+    <div class="hint-text">TAP HERE</div>
+  </div>
+</div>
+
+<div id="div"></div>
+
+<!-- Right: pink lock-in -->
+<div id="right">
+  <div id="hint-right" class="tap-hint tap-hint-right" style="display:none">
+    <div class="hint-text">TAP HERE</div>
+    <div class="hint-arrow">↓</div>
+  </div>
+  <div id="cbtn">
+    <!-- Pink slime inside the button -->
+    <svg class="cbtn-slime" viewBox="0 0 70 60" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="35" cy="57" rx="18" ry="4" fill="rgba(0,0,0,0.22)"/>
+      <ellipse cx="35" cy="32" rx="26" ry="21" fill="#ff3dbe"/>
+      <ellipse cx="20" cy="19" rx="11" ry="10" fill="#ff3dbe"/>
+      <ellipse cx="35" cy="13" rx="12" ry="10" fill="#ff3dbe"/>
+      <ellipse cx="50" cy="19" rx="11" ry="10" fill="#ff3dbe"/>
+      <ellipse cx="27" cy="23" rx="9" ry="5.5" fill="rgba(255,255,255,.25)" transform="rotate(-15,27,23)"/>
+      <circle cx="27" cy="33" r="7" fill="white"/><circle cx="43" cy="33" r="7" fill="white"/>
+      <circle cx="28" cy="34" r="4" fill="#2a0018"/><circle cx="44" cy="34" r="4" fill="#2a0018"/>
+      <circle cx="29" cy="32" r="1.6" fill="white"/><circle cx="45" cy="32" r="1.6" fill="white"/>
+      <path d="M28 44 Q35 50 42 44" stroke="#b5007c" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    </svg>
+  </div>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     GAME OVER OVERLAY
+══════════════════════════════ -->
+
+<div id="go-screen">
+  <div class="go-title" id="go-title">KO!</div>
+  <div class="go-reason" id="go-reason">You made a mistake.</div>
+  <div class="go-box">
+    <div class="go-row">
+      <span class="go-lbl">TIME</span>
+      <span class="go-val" id="go-time" style="color:var(--green);">0.00s</span>
+    </div>
+    <div class="go-row">
+      <span class="go-lbl">ROUNDS</span>
+      <span class="go-val" id="go-rounds" style="color:var(--pink);">0</span>
+    </div>
+  </div>
+  <div class="go-btns">
+    <button class="abtn btn-retry" id="retry-btn">RETRY</button>
+    <button class="abtn btn-menu"  id="menu-btn">MENU</button>
+  </div>
+  <div class="go-best" id="go-best" style="display:none"></div>
+</div>
+
+<script src="game.js"></script>
+
+</body>
+</html>
