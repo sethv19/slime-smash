@@ -34,7 +34,7 @@ color:#fff;
 body{
 display:flex;flex-direction:column;align-items:center;
 height:100dvh;
-background:radial-gradient(ellipse at 50% -10%,#1a0828 0%,transparent 58%),var(–bg);
+background:radial-gradient(ellipse at 50% -10%,#1a0828 0%,transparent 58%),#160c28;
 }
 body::before{
 content:’’;position:fixed;inset:0;
@@ -48,8 +48,8 @@ SHARED HEADER
 #hdr{
 width:100%;flex-shrink:0;
 background:linear-gradient(180deg,#1e0a38,#130820);
-border-bottom:3px solid var(–pink);
-box-shadow:0 3px 0 var(–pink-dk),0 5px 18px rgba(255,61,190,.15);
+border-bottom:3px solid #ff3dbe;
+box-shadow:0 3px 0 #b5007c,0 5px 18px rgba(255,61,190,.15);
 padding:6px 14px 8px;
 display:flex;align-items:center;justify-content:center;
 position:relative;overflow:hidden;z-index:10;
@@ -61,8 +61,8 @@ font-size:clamp(22px,6vw,32px);
 line-height:1;letter-spacing:2px;
 text-align:center;
 }
-.s1{color:var(–green); text-shadow:2px 2px 0 var(–green-dk),-1px -1px 0 #000;}
-.s2{color:var(–pink);  text-shadow:2px 2px 0 var(–pink-dk), -1px -1px 0 #000;}
+.s1{color:#3fff6a; text-shadow:2px 2px 0 #009e35,-1px -1px 0 #000;}
+.s2{color:#ff3dbe;  text-shadow:2px 2px 0 #b5007c, -1px -1px 0 #000;}
 
 /* ════════════════════════════════
 SCREENS
@@ -97,7 +97,7 @@ border-bottom:3px solid transparent;
 margin-bottom:-2px;
 transition:color .15s,border-color .15s;
 }
-.tab.active{color:#fff;border-bottom-color:var(–green);}
+.tab.active{color:#fff;border-bottom-color:#3fff6a;}
 
 /* Tab panels */
 .tab-panel{display:none;flex:1;width:100%;flex-direction:column;align-items:center;overflow-y:auto;padding:20px 18px 16px;}
@@ -121,7 +121,7 @@ font-family:‘Baloo 2’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
 font-size:26px;letter-spacing:5px;
 padding:14px 52px;border-radius:50px;
 border:none;cursor:pointer;
-background:linear-gradient(160deg,var(–green),var(–green-dk));
+background:linear-gradient(160deg,#3fff6a,#009e35);
 color:#002a10;
 box-shadow:0 5px 0 #004a18;
 transition:transform .07s,box-shadow .07s;
@@ -134,8 +134,8 @@ transition:transform .07s,box-shadow .07s;
 .scores-title{
 font-family:‘Baloo 2’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
 font-size:20px;letter-spacing:2px;
-color:var(–green);
-text-shadow:1px 1px 0 var(–green-dk);
+color:#3fff6a;
+text-shadow:1px 1px 0 #009e35;
 align-self:flex-start;
 }
 
@@ -153,9 +153,9 @@ padding:9px 14px;
 font-family:‘Baloo 2’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
 font-size:18px;min-width:28px;text-align:center;
 }
-.rank-1{color:var(–green);}
-.rank-2{color:var(–pink-lt);}
-.rank-3{color:var(–green-lt);}
+.rank-1{color:#3fff6a;}
+.rank-2{color:#ffb3e8;}
+.rank-3{color:#a8ffc0;}
 .rank-other{color:rgba(255,255,255,.3);}
 
 .score-time{
@@ -179,7 +179,7 @@ font-size:13px;letter-spacing:2px;
 padding:7px 20px;border-radius:20px;
 border:1.5px solid rgba(255,61,190,.4);
 background:rgba(255,61,190,.08);
-color:var(–pink);cursor:pointer;
+color:#ff3dbe;cursor:pointer;
 margin-top:4px;
 transition:background .12s;
 }
@@ -191,7 +191,7 @@ transition:background .12s;
 .rules-title{
 font-family:‘Baloo 2’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
 font-size:20px;letter-spacing:2px;
-color:var(–pink);
+color:#ff3dbe;
 align-self:flex-start;
 }
 
@@ -209,10 +209,10 @@ display:flex;align-items:flex-start;gap:12px;
 font-family:‘Baloo 2’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
 font-size:22px;line-height:1;flex-shrink:0;margin-top:1px;
 }
-.rule-card.g .rule-num{color:var(–green);}
-.rule-card.p .rule-num{color:var(–pink);}
-.rule-card.o .rule-num{color:var(–pink);}
-.rule-card.r .rule-num{color:var(–green);}
+.rule-card.g .rule-num{color:#3fff6a;}
+.rule-card.p .rule-num{color:#ff3dbe;}
+.rule-card.o .rule-num{color:#ff3dbe;}
+.rule-card.r .rule-num{color:#3fff6a;}
 
 .rule-text{font-size:13px;font-weight:800;line-height:1.6;letter-spacing:.2px;color:rgba(255,255,255,.8);}
 .rule-text b{color:#fff;}
@@ -230,7 +230,7 @@ padding:6px 0 4px;
 background:rgba(0,0,0,.2);
 border-bottom:1px solid rgba(255,255,255,.06);
 }
-#timer-lbl{font-size:8px;letter-spacing:4px;font-weight:900;color:var(–green-lt);}
+#timer-lbl{font-size:8px;letter-spacing:4px;font-weight:900;color:#a8ffc0;}
 #timer-val{
 font-family:‘Baloo 2’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
 font-size:clamp(44px,12vw,64px);
@@ -254,7 +254,7 @@ font-size:9px;letter-spacing:3px;font-weight:900;
 padding:3px 10px;border-radius:20px;
 text-transform:uppercase;margin-bottom:6px;
 }
-.ct-smash{background:var(–green);color:#002a10;box-shadow:0 2px 0 var(–green-dk);}
+.ct-smash{background:#3fff6a;color:#002a10;box-shadow:0 2px 0 #009e35;}
 
 #stack-wrap{
 flex:1;min-height:0;overflow:hidden;position:relative;
@@ -262,12 +262,12 @@ display:flex;flex-direction:column;justify-content:flex-end;
 }
 #stack-wrap::before{
 content:’’;position:absolute;top:0;left:0;right:0;height:52%;
-background:linear-gradient(to bottom,var(–bg) 0%,rgba(22,12,40,.84) 42%,transparent 100%);
+background:linear-gradient(to bottom,#160c28 0%,rgba(22,12,40,.84) 42%,transparent 100%);
 pointer-events:none;z-index:2;
 }
 #stack-wrap::after{
 content:’’;position:absolute;top:0;left:0;right:0;height:26%;
-background:linear-gradient(to bottom,var(–bg),transparent);
+background:linear-gradient(to bottom,#160c28,transparent);
 pointer-events:none;z-index:3;
 }
 #stack-inner{
@@ -303,16 +303,16 @@ padding-bottom:4px;min-height:0;
 /* Lock-in button — pink slime themed, always same appearance */
 #cbtn{
 width:min(130px,88%);aspect-ratio:1;border-radius:50%;
-border:4px solid var(–pink);
+border:4px solid #ff3dbe;
 background:linear-gradient(160deg,#3a0030,#1e0018);
-box-shadow:0 5px 0 var(–pink-dk);
+box-shadow:0 5px 0 #b5007c;
 cursor:pointer;
 touch-action:manipulation;
 display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
 flex-shrink:0;
 }
 #cbtn .cbtn-slime{width:65%;height:auto;pointer-events:none;}
-#cbtn:active{transform:scale(0.88) translateY(5px);box-shadow:0 1px 0 var(–pink-dk);transition:transform .05s;}
+#cbtn:active{transform:scale(0.88) translateY(5px);box-shadow:0 1px 0 #b5007c;transition:transform .05s;}
 
 /* ════════════════════════════════
 GAME OVER OVERLAY
@@ -328,8 +328,8 @@ backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
 .go-title{
 font-family:‘Baloo 2’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
 font-size:clamp(60px,16vw,88px);
-color:var(–pink);
-text-shadow:3px 3px 0 var(–pink-dk);
+color:#ff3dbe;
+text-shadow:3px 3px 0 #b5007c;
 line-height:1;
 }
 .go-reason{
@@ -351,10 +351,10 @@ padding:12px 28px;border-radius:50px;border:none;cursor:pointer;
 transition:transform .07s,box-shadow .07s;
 }
 .abtn:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(0,0,0,.4)!important;}
-.btn-retry{background:linear-gradient(160deg,var(–green),var(–green-dk));color:#002a10;box-shadow:0 4px 0 #004a18;}
+.btn-retry{background:linear-gradient(160deg,#3fff6a,#009e35);color:#002a10;box-shadow:0 4px 0 #004a18;}
 .btn-menu {background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);color:rgba(255,255,255,.7);box-shadow:0 4px 0 rgba(0,0,0,.3);}
 
-.go-best{font-family:‘Baloo 2’,‘Arial Rounded MT Bold’,system-ui,sans-serif;font-size:13px;color:var(–green);letter-spacing:1px;}
+.go-best{font-family:‘Baloo 2’,‘Arial Rounded MT Bold’,system-ui,sans-serif;font-size:13px;color:#3fff6a;letter-spacing:1px;}
 
 /* ════════════════════════════════
 FLASH + SPLAT
@@ -395,18 +395,18 @@ animation:hintPulse 1.2s ease-in-out infinite;
 .tap-hint-right{ opacity:0.4; }
 .hint-arrow{
 font-size:22px;
-color:var(–green);
+color:#3fff6a;
 line-height:1;
 }
-.tap-hint-right .hint-arrow{ color:var(–pink); }
+.tap-hint-right .hint-arrow{ color:#ff3dbe; }
 .hint-text{
 font-family:‘Baloo 2’,‘Arial Rounded MT Bold’,system-ui,sans-serif;
 font-size:10px;
 font-weight:800;
 letter-spacing:2px;
-color:var(–green);
+color:#3fff6a;
 }
-.tap-hint-right .hint-text{ color:var(–pink); }
+.tap-hint-right .hint-text{ color:#ff3dbe; }
 @keyframes hintPulse{
 0%,100%{transform:translateY(0);opacity:1;}
 50%{transform:translateY(-4px);opacity:0.5;}
@@ -435,8 +435,8 @@ animation:cdPop .75s ease forwards;
 }
 #cd-num.go{
 font-size:clamp(72px,22vw,120px);
-color:var(–green) !important;
-text-shadow:0 0 40px rgba(63,255,106,.6), 3px 3px 0 var(–green-dk);
+color:#3fff6a !important;
+text-shadow:0 0 40px rgba(63,255,106,.6), 3px 3px 0 #009e35;
 }
 @keyframes cdPop{
 0%  {transform:scale(1.6);opacity:0;}
@@ -636,11 +636,11 @@ text-shadow:0 0 40px rgba(63,255,106,.6), 3px 3px 0 var(–green-dk);
   <div class="go-box">
     <div class="go-row">
       <span class="go-lbl">TIME</span>
-      <span class="go-val" id="go-time" style="color:var(--green);">0.00s</span>
+      <span class="go-val" id="go-time" style="color:#3fff6a;">0.00s</span>
     </div>
     <div class="go-row">
       <span class="go-lbl">ROUNDS</span>
-      <span class="go-val" id="go-rounds" style="color:var(--pink);">0</span>
+      <span class="go-val" id="go-rounds" style="color:#ff3dbe;">0</span>
     </div>
   </div>
   <div class="go-btns">
@@ -730,7 +730,7 @@ function renderScores(){
   list.innerHTML = scores.map((s, i) => {
     const cls   = i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':'rank-other';
     const medal = i===0?'1st':i===1?'2nd':i===2?'3rd':`${i+1}th`;
-    const lbl   = s.rounds >= TOTAL_ROUNDS ? '<span style="color:var(--green);font-weight:900;">WON</span>' : `${s.rounds}/${TOTAL_ROUNDS}`;
+    const lbl   = s.rounds >= TOTAL_ROUNDS ? '<span style="color:#3fff6a;font-weight:900;">WON</span>' : `${s.rounds}/${TOTAL_ROUNDS}`;
     return `<div class="score-row">
       <div class="score-rank ${cls}">${medal}</div>
       <div class="score-time">${fmt(s.ms)}</div>
@@ -942,7 +942,7 @@ function gameComplete(){
     else if(scores.length){ gob.style.display='block'; gob.textContent=`BEST  ${fmt(scores[0].ms)}`; }
     else gob.style.display='none';
     document.getElementById('go-title').textContent = 'DONE!';
-    document.getElementById('go-title').style.color = 'var(--green)';
+    document.getElementById('go-title').style.color = '#3fff6a';
     goScreen.style.display = 'flex';
   }, 200);
 }
@@ -954,7 +954,7 @@ function runCountdown(onDone){
   const overlay = document.getElementById('countdown');
   const numEl   = document.getElementById('cd-num');
   const steps   = ['3','2','1','GO!'];
-  const colors  = ['#fff','#fff','#fff','var(--green)'];
+  const colors  = ['#fff','#fff','#fff','#3fff6a'];
   let i = 0;
   overlay.classList.add('active');
 
