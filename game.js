@@ -1,3 +1,5 @@
+document.addEventListener(‘DOMContentLoaded’, function() {
+
 // ══════════════════════════
 // CONFIG
 // ══════════════════════════
@@ -334,3 +336,5 @@ running = false;
 goScreen.style.display = ‘none’;
 showScreen(‘menu’);
 }
+
+});
